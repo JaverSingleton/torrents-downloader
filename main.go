@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"encoding/json"
+    "log"
+    "strconv"
 
 	"github.com/JaverSingleton/torrents-downloader/tparser"
 )
@@ -11,12 +13,23 @@ import (
 func search(w http.ResponseWriter, r *http.Request) {
 	var query string
 	if array, ok := r.URL.Query()["query"]; ok && len(array) > 0 {    
-		code = array[0]
+		query = array[0]
+	}
+	var priority string
+	if array, ok := r.URL.Query()["priority"]; ok && len(array) > 0 {    
+		priority = array[0]
 	}
 	payload := struct {
-		torrents string `json:"torrents"`
+		Torrents []tparser.Torrent `json:"torrents"`
 	} {}
-	payload.torrents = tparser.find(query)
+	priorityNumber, err := strconv.Atoi(priority)
+	torrents, err := tparser.Find(query, priorityNumber)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	payload.Torrents = torrents
+    log.Println("Torrents:", payload)
 
 	js, err := json.Marshal(payload)
 	if err != nil {
@@ -30,7 +43,6 @@ func search(w http.ResponseWriter, r *http.Request) {
 func main() {
 	fmt.Println("Listening on port :3000")
 
-	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets/"))))
 	http.HandleFunc("/search", search)
 
 	http.ListenAndServe(":3000", nil)
