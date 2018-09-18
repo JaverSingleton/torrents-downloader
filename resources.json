@@ -1,26 +1,28 @@
-[
-    {
-	  "url": "http://js3.tparser.org/js3/6.tor.php",
-	  "name": "Rutracker"
-	},
-    {
-	  "url": "http://js4.tparser.org/js4/8.tor.php",
-	  "name": "NNM-club"
-	},
-    {
-	  "url": "http://js5.tparser.org/js5/10.tor.php",
-	  "name": "Kinozal"
-	},
-    {
-	  "url": "http://js5.tparser.org/js5/9.tor.php",
-	  "name": "Underverse"
-	},
-    {
-	  "url": "http://js1.tparser.org/js1/2.tor.php",
-	  "name": "ХЗ"
-	},
-    {
-	  "url": "http://js4.tparser.org/js4/8.tor.php",
-	  "name": "ХЗ"
-	},
-]
+{
+"resources" : [
+	    {
+		  "url": "http://js3.tparser.org/js3/6.tor.php",
+		  "name": "Rutracker"
+		},
+	    {
+		  "url": "http://js4.tparser.org/js4/8.tor.php",
+		  "name": "NNM-club"
+		},
+	    {
+		  "url": "http://js5.tparser.org/js5/10.tor.php",
+		  "name": "Kinozal"
+		},
+	    {
+		  "url": "http://js5.tparser.org/js5/9.tor.php",
+		  "name": "Underverse"
+		},
+	    {
+		  "url": "http://js1.tparser.org/js1/2.tor.php",
+		  "name": "ХЗ"
+		},
+	    {
+		  "url": "http://js4.tparser.org/js4/8.tor.php",
+		  "name": "ХЗ"
+		}
+	]
+}

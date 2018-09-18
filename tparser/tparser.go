@@ -14,18 +14,48 @@ import (
 
 
 
-func Find(query string, priority int) ([]Torrent, error) { 
-	resources, err := resource.GetResources(priority)
+func Find(query string, amount int) ([]Torrent, error) { 
+	resources, err := resource.GetResources(amount)
     if err != nil {
     	return []Torrent {}, err
     }
 
 	var result []Torrent 
-	for _, url := range resources {
-		result = append(result, find(url, query)...)
+	for _, resource := range resources {
+		result = append(result, find(resource.Url, query)...)
 	}
 
-	return result
+	return result, nil
+}
+
+func GetLink(magnet string) (string, error) {
+	var Url *url.URL
+    Url, err := url.Parse("http://tparser.org/magnet.php")
+    if err != nil {
+    	return "", err
+    }
+
+	Url.Path += ""
+    parameters := url.Values{}
+    parameters.Add("t", magnet)
+    Url.RawQuery = parameters.Encode()
+
+	req, err := http.NewRequest("GET", Url.String(), nil)
+	if (err != nil) {
+    	return "", err
+	}
+	client := &http.Client{
+      CheckRedirect: func(req *http.Request, via []*http.Request) error {
+        return http.ErrUseLastResponse
+    } }
+
+	response, err := client.Do(req)
+    if err != nil {
+    	return "", err
+    }
+    content := response.Header.Get("Location") 
+
+	return content, nil
 }
 
 func find(url string, query string) []Torrent {
